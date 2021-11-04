@@ -25,9 +25,11 @@ const QuoteList = (props) => {
 
   const sortedQuotes = sortQuotes(props.quotes, isSortingAscending);
 
-  const changeSortingHandler = () => {
-    history.push('/quotes?sort=' + sortingMethod);
-  };
+  const changeSortingHandler = () =>
+    history.push({
+      pathname: location.pathname,
+      search: `?sort=${sortingMethod}`,
+    });
 
   const mapQuoteItems = ({ id, author, text }) => (
     <QuoteItem key={id} id={id} author={author} text={text} />
