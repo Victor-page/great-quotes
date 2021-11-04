@@ -14,11 +14,10 @@ const QuoteForm = (props) => {
   function submitFormHandler(event) {
     event.preventDefault();
 
-
     const enteredAuthor = authorInputRef.current.value;
     const enteredText = textInputRef.current.value;
 
-    // optional: Could validate here
+    // Could validate here
 
     props.onAddQuote({ author: enteredAuthor, text: enteredText });
   }

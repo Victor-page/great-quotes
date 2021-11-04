@@ -23,3 +23,11 @@
 .sorting button:hover {
   background-color: #c2fafa;
 }
+
+.sorting button .sorting-method {
+  display: inline-block;
+}
+
+.sorting button .sorting-method:first-letter {
+  text-transform: capitalize;
+}
