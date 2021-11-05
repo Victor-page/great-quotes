@@ -1,40 +1,47 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useParams, Route, Link, useRouteMatch } from 'react-router-dom';
 
 import HighLightedQuote from '../components/quotes/HighlightedQuote';
 import Comments from '../components/comments/Comments';
-
-const DUMMY_QUOTES = [
-  {
-    id: 'q1',
-    author: 'Earl Nightingale',
-    text: 'One hour per day of study in your chosen field is all it takes. One hour per day of study will put you at the top of your field within three years. Within five years you’ll be a national authority. In seven years, you can be one of the best people in the world at what you do.',
-  },
-  {
-    id: 'q2',
-    author: 'Richard Feynman',
-    text: 'Study hard what interests you the most in the most undisciplined, irreverent and original manner possible.',
-  },
-  {
-    id: 'q3',
-    author: 'Mahatma Gandhi',
-    text: 'Live as if you were to die tomorrow. Learn as if you were to live forever.',
-  },
-];
+import useHttp from '../hooks/use-http';
+import { getSingleQuote } from '../lib/api';
+import LoadingSpinner from '../components/UI/LoadingSpinner';
 
 const QuoteDetail = () => {
   const match = useRouteMatch();
-  const { quoteId } = useParams();
+  const params = useParams();
+  const { quoteId } = params;
 
-  const quote = DUMMY_QUOTES.find((quote) => quote.id === quoteId);
+  const {
+    sendRequest,
+    status,
+    data: loadedQuote,
+    error,
+  } = useHttp(getSingleQuote, true);
 
-  if (!quote) {
+  useEffect(() => {
+    sendRequest(quoteId);
+  }, [sendRequest, quoteId]);
+
+  if (status === 'pending') {
+    return (
+      <div className="centered">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p className="centered">{error}</p>;
+  }
+
+  if (!loadedQuote.text) {
     return <p>No quote found.</p>;
   }
 
   return (
     <Fragment>
-      <HighLightedQuote text={quote.text} author={quote.author} />
+      <HighLightedQuote text={loadedQuote.text} author={loadedQuote.author} />
       <Route path={match.path} exact>
         <div className="centered">
           <Link className="btn--flat" to={`${match.url}/comments`}>
