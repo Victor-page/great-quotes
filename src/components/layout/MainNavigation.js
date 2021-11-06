@@ -2,6 +2,8 @@ import { NavLink } from 'react-router-dom';
 
 import classes from './MainNavigation.module.css';
 
+const isActiveClass = (navData) => (navData.isActive ? classes.active : '');
+
 const MainNavigation = () => {
   return (
     <header className={classes.header}>
@@ -9,12 +11,12 @@ const MainNavigation = () => {
       <nav className={classes.nav}>
         <ul>
           <li>
-            <NavLink to="/quotes" activeClassName={classes.active}>
+            <NavLink to="/quotes" className={isActiveClass}>
               All Quotes
             </NavLink>
           </li>
           <li>
-            <NavLink to="/new-quote" activeClassName={classes.active}>
+            <NavLink to="/new-quote" className={isActiveClass}>
               Add a Quote
             </NavLink>
           </li>
