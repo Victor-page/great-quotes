@@ -22,6 +22,10 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Navigate replace to="/quotes" />}></Route>
+          <Route
+            path="great-quotes/"
+            element={<Navigate replace to="/quotes" />}
+          ></Route>
           <Route path="/quotes" element={<AllQuotes />} />
           <Route path="/quotes/:quoteId" element={<QuoteDetail />}>
             <Route
